@@ -12,5 +12,7 @@ defmodule Tunez.Music do
 
       define :destroy_artist, action: :destroy
     end
+
+    resource Tunez.Music.Album
   end
 end
