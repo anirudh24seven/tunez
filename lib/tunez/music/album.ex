@@ -18,6 +18,18 @@ defmodule Tunez.Music.Album do
     update_timestamp :updated_at
   end
 
+  actions do
+    defaults [:read, :destroy]
+
+    create :create do
+      accept [:name, :year_released, :cover_image_url, :artist_id]
+    end
+
+    update :update do
+      accept [:name, :year_released, :cover_image_url]
+    end
+  end
+
   relationships do
     belongs_to :artist, Tunez.Music.Artist do
       allow_nil? false
@@ -27,5 +39,9 @@ defmodule Tunez.Music.Album do
   postgres do
     table "albums"
     repo Tunez.Repo
+
+    references do
+      reference :artist, index?: true
+    end
   end
 end
