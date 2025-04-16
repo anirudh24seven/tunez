@@ -15,21 +15,8 @@ defmodule Tunez.Music.Artist do
   end
 
   actions do
-    create :create do
-      accept [:name, :biography]
-    end
-
-    read :read do
-      primary? true
-    end
-
-    update :update do
-      accept [:name, :biography]
-    end
-
-    destroy :destroy do
-      
-    end
+    defaults [:create, :read, :update, :destroy]
+    default_accept [:name, :biography]
   end
 
   postgres do
