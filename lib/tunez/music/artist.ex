@@ -19,6 +19,10 @@ defmodule Tunez.Music.Artist do
     default_accept [:name, :biography]
   end
 
+  relationships do
+    has_many :albums, Tunez.Music.Album
+  end
+
   postgres do
     table "artists"
     repo Tunez.Repo
