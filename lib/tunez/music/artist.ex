@@ -56,6 +56,12 @@ defmodule Tunez.Music.Artist do
     end
   end
 
+  calculations do
+    calculate :album_count, :integer, expr(count(albums))
+    calculate :latest_album_year_released, :integer, expr(first(albums, field: :year_released))
+    calculate :cover_image_url, :string, expr(first(albums, include_nil?: true, field: :cover_image_url))
+  end
+
   postgres do
     table "artists"
     repo Tunez.Repo
