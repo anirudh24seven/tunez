@@ -15,7 +15,11 @@ defmodule TunezWeb.Artists.IndexLive do
     query_text = Map.get(params, "q", "")
     sort_by = Map.get(params, "sort_by") |> validate_sort_by()
     page_params = AshPhoenix.LiveView.page_from_params(params, 12)
-    page = Tunez.Music.search_artists!(query_text, page: page_params, query: [sort_input: sort_by])
+    page = Tunez.Music.search_artists!(query_text,
+      page: page_params,
+      query: [sort_input: sort_by],
+      load: [:album_count, :latest_album_year_released, :cover_image_url]
+    )
 
     socket =
       socket
@@ -58,7 +62,7 @@ defmodule TunezWeb.Artists.IndexLive do
     ~H"""
     <div id={"artist-#{@artist.id}"} data-role="artist-card" class="relative mb-2">
       <.link navigate={~p"/artists/#{@artist.id}"}>
-        <.cover_image />
+        <.cover_image image={@artist.cover_image_url}/>
       </.link>
     </div>
     <p>
@@ -69,6 +73,7 @@ defmodule TunezWeb.Artists.IndexLive do
       >
         {@artist.name}
       </.link>
+      <.artist_card_album_info artist={@artist} />
     </p>
     """
   end
@@ -78,8 +83,7 @@ defmodule TunezWeb.Artists.IndexLive do
   def artist_card_album_info(assigns) do
     ~H"""
     <span class="mt-2 text-sm leading-6 text-zinc-500">
-      {@artist.album_count} {ngettext("album", "albums", @artist.album_count)},
-      latest release {@artist.latest_album_year_released}
+      {@artist.album_count} {ngettext("album", "albums", @artist.album_count)}, latest release: {@artist.latest_album_year_released}
     </span>
     """
   end
@@ -159,7 +163,9 @@ defmodule TunezWeb.Artists.IndexLive do
     [
       {"recently updated", "-updated_at"},
       {"recently added", "-inserted_at"},
-      {"name", "name"}
+      {"name", "name"},
+      {"number of albums", "-album_count"},
+      {"latest album release", "--latest_album_year_released"}
     ]
   end
 
