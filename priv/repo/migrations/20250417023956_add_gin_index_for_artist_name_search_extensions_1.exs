@@ -8,12 +8,12 @@ defmodule Tunez.Repo.Migrations.AddGinIndexForArtistNameSearchExtensions1 do
   use Ecto.Migration
 
   def up do
-    execute("CREATE EXTENSION IF NOT EXISTS \"pg-trgm\"")
+    execute("CREATE EXTENSION IF NOT EXISTS \"pg_trgm\"")
   end
 
   def down do
     # Uncomment this if you actually want to uninstall the extensions
     # when this migration is rolled back:
-    # execute("DROP EXTENSION IF EXISTS \"pg-trgm\"")
+    # execute("DROP EXTENSION IF EXISTS \"pg_trgm\"")
   end
 end

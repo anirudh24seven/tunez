@@ -2,6 +2,6 @@
   "ash_functions_version": 5,
   "installed": [
     "ash-functions",
-    "pg-trgm"
+    "pg_trgm"
   ]
 }
