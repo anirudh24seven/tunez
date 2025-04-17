@@ -6,6 +6,7 @@ defmodule Tunez.Music.Artist do
 
     attribute :name, :string do
       allow_nil? false
+      public? true
     end
 
     attribute :biography, :string
@@ -14,8 +15,8 @@ defmodule Tunez.Music.Artist do
       default []
     end
 
-    create_timestamp :inserted_at
-    update_timestamp :updated_at
+    create_timestamp :inserted_at, public?: true
+    update_timestamp :updated_at, public?: true
   end
 
   actions do
