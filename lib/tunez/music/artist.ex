@@ -1,22 +1,21 @@
 defmodule Tunez.Music.Artist do
-  use Ash.Resource, otp_app: :tunez, domain: Tunez.Music, data_layer: AshPostgres.DataLayer
+  use Ash.Resource,
+    otp_app: :tunez,
+    domain: Tunez.Music,
+    data_layer: AshPostgres.DataLayer,
+    extensions: [AshJsonApi.Resource]
 
-  attributes do
-    uuid_primary_key :id
+  json_api do
+    type "artist"
+  end
 
-    attribute :name, :string do
-      allow_nil? false
-      public? true
+  postgres do
+    table "artists"
+    repo Tunez.Repo
+
+    custom_indexes do
+      index "name gin_trgm_ops", name: "artists_name_gin_index", using: "GIN"
     end
-
-    attribute :biography, :string
-
-    attribute :previous_names, {:array, :string} do
-      default []
-    end
-
-    create_timestamp :inserted_at, public?: true
-    update_timestamp :updated_at, public?: true
   end
 
   actions do
@@ -35,7 +34,7 @@ defmodule Tunez.Music.Artist do
       end
 
       filter expr(contains(name, ^arg(:query)))
-      
+
       pagination offset?: true, default_limit: 12
 
       prepare build(load: [:album_count, :latest_album_year_released, :cover_image_url])
@@ -50,6 +49,24 @@ defmodule Tunez.Music.Artist do
     end
 
     destroy :destroy
+  end
+
+  attributes do
+    uuid_primary_key :id
+
+    attribute :name, :string do
+      allow_nil? false
+      public? true
+    end
+
+    attribute :biography, :string
+
+    attribute :previous_names, {:array, :string} do
+      default []
+    end
+
+    create_timestamp :inserted_at, public?: true
+    update_timestamp :updated_at, public?: true
   end
 
   relationships do
@@ -74,14 +91,5 @@ defmodule Tunez.Music.Artist do
     end
 
     first :cover_image_url, :albums, :cover_image_url
-  end
-
-  postgres do
-    table "artists"
-    repo Tunez.Repo
-
-    custom_indexes do
-      index "name gin_trgm_ops", name: "artists_name_gin_index", using: "GIN"
-    end
   end
 end

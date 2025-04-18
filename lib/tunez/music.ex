@@ -1,5 +1,5 @@
 defmodule Tunez.Music do
-  use Ash.Domain, otp_app: :tunez, extensions: [AshPhoenix]
+  use Ash.Domain, otp_app: :tunez, extensions: [AshJsonApi.Domain, AshPhoenix]
 
   resources do
     resource Tunez.Music.Artist do
@@ -7,6 +7,7 @@ defmodule Tunez.Music do
 
       define :read_artists, action: :read
       define :get_artist_by_id, action: :read, get_by: :id
+
       define :search_artists,
         action: :search,
         args: [:query],
