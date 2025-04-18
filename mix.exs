@@ -33,6 +33,8 @@ defmodule Tunez.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:open_api_spex, "~> 3.0"},
+      {:ash_json_api, "~> 1.0"},
       {:ash_phoenix, "~> 2.0"},
       {:ash_postgres, "~> 2.0"},
       {:sourceror, "~> 1.8", only: [:dev, :test]},
@@ -80,7 +82,7 @@ defmodule Tunez.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate"],
       seed: [
         "run priv/repo/seeds/01-artists.exs",
-        "run priv/repo/seeds/02-albums.exs",
+        "run priv/repo/seeds/02-albums.exs"
         # "run priv/repo/seeds/08-tracks.exs"
       ],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
@@ -91,7 +93,8 @@ defmodule Tunez.MixProject do
         "tailwind tunez --minify",
         "esbuild tunez --minify",
         "phx.digest"
-      ]
+      ],
+      "phx.routes": ["phx.routes", "ash_json_api.routes"]
     ]
   end
 end
