@@ -21,6 +21,10 @@ defmodule TunezWeb.Router do
       path: "/api/json/open_api",
       default_model_expand_depth: 4
 
+    forward "/redocui", Redoc.Plug.RedocUI,
+      spec_url: "/api/json/open_api",
+      default_model_expand_depth: 4
+
     forward "/", TunezWeb.AshJsonApiRouter
   end
 

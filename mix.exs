@@ -66,7 +66,8 @@ defmodule Tunez.MixProject do
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
       {:igniter, "~> 0.3", only: [:dev]},
-      {:phoenix_test, "~> 0.5.1", only: :test, runtime: false}
+      {:phoenix_test, "~> 0.5.1", only: :test, runtime: false},
+      {:redoc_ui_plug, "~> 0.2.1"},
     ]
   end
 
