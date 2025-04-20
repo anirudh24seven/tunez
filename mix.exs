@@ -33,6 +33,8 @@ defmodule Tunez.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:picosat_elixir, "~> 0.2"},
+      {:ash_authentication, "~> 4.0"},
       {:open_api_spex, "~> 3.0"},
       {:ash_json_api, "~> 1.0"},
       {:ash_phoenix, "~> 2.0"},
@@ -67,7 +69,7 @@ defmodule Tunez.MixProject do
       {:bandit, "~> 1.5"},
       {:igniter, "~> 0.3", only: [:dev]},
       {:phoenix_test, "~> 0.5.1", only: :test, runtime: false},
-      {:redoc_ui_plug, "~> 0.2.1"},
+      {:redoc_ui_plug, "~> 0.2.1"}
     ]
   end
 

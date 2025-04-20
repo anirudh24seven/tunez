@@ -6,11 +6,11 @@ defmodule Tunez.Music.Changes.UpdatePreviousNames do
     previous_name = Ash.Changeset.get_data(changeset, :name)
     previous_names = Ash.Changeset.get_data(changeset, :previous_names)
 
-    names = [previous_name | previous_names]
+    names =
+      [previous_name | previous_names]
       |> Enum.uniq()
       |> Enum.reject(fn name -> name == new_name end)
 
     Ash.Changeset.change_attribute(changeset, :previous_names, names)
   end
-  
 end
