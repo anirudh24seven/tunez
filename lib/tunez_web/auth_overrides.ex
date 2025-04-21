@@ -17,4 +17,8 @@ defmodule TunezWeb.AuthOverrides do
   # override AshAuthentication.Phoenix.Components.SignIn do
   #  set :show_banner, false
   # end
+  
+  override AshAuthentication.Phoenix.Components.Password.Input do
+    set :submit_class, "bg-primary-600 text-white my-4 py-3 px-5 text-sm"
+  end
 end
