@@ -89,7 +89,7 @@ defmodule Tunez.Music.Artist do
     end
 
     belongs_to :created_by, Tunez.Accounts.User
-    belongs_to :updated_eby, Tunez.Accounts.User
+    belongs_to :updated_by, Tunez.Accounts.User
   end
 
   calculations do
@@ -111,10 +111,6 @@ defmodule Tunez.Music.Artist do
   end
 
   policies do
-    bypass actor_attribute_equals(:role, :admin) do
-      authorize_if always()
-    end
-
     policy action(:create) do
       authorize_if actor_attribute_equals(:role, :admin)
     end

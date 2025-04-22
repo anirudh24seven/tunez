@@ -3,7 +3,8 @@ defmodule Tunez.Music.Album do
     otp_app: :tunez,
     domain: Tunez.Music,
     data_layer: AshPostgres.DataLayer,
-    extensions: [AshJsonApi.Resource]
+    extensions: [AshJsonApi.Resource],
+    authorizers: [Ash.Policy.Authorizer]
 
   json_api do
     type "album"
@@ -70,7 +71,7 @@ defmodule Tunez.Music.Album do
     end
 
     belongs_to :created_by, Tunez.Accounts.User
-    belongs_to :updated_eby, Tunez.Accounts.User
+    belongs_to :updated_by, Tunez.Accounts.User
   end
 
   calculations do
@@ -91,5 +92,23 @@ defmodule Tunez.Music.Album do
     change relate_actor(:created_by, allow_nil?: true), on: [:create]
     change relate_actor(:updated_by, allow_nil?: true), on: [:create]
     change relate_actor(:updated_by, allow_nil?: true), on: [:update]
+  end
+
+  policies do
+    bypass actor_attribute_equals(:role, :admin) do
+      authorize_if always()
+    end
+
+    policy action_type(:read) do
+      authorize_if always()
+    end
+
+    policy action(:create) do
+      authorize_if actor_attribute_equals(:role, :editor)
+    end
+
+    policy action([:update, :destroy]) do
+      authorize_if expr(^actor(:role) == :editor and created_by_id == ^actor(:id))
+    end
   end
 end
