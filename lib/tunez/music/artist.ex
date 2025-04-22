@@ -87,6 +87,9 @@ defmodule Tunez.Music.Artist do
       sort year_released: :desc
       public? true
     end
+
+    belongs_to :created_by, Tunez.Accounts.User
+    belongs_to :updated_eby, Tunez.Accounts.User
   end
 
   calculations do
@@ -136,5 +139,11 @@ defmodule Tunez.Music.Artist do
     policy action_type(:read) do
       authorize_if always()
     end
+  end
+
+  changes do
+    change relate_actor(:created_by, allow_nil?: true), on: [:create]
+    change relate_actor(:updated_by, allow_nil?: true), on: [:create]
+    change relate_actor(:updated_by, allow_nil?: true), on: [:update]
   end
 end

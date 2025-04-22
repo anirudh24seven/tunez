@@ -68,6 +68,9 @@ defmodule Tunez.Music.Album do
     belongs_to :artist, Tunez.Music.Artist do
       allow_nil? false
     end
+
+    belongs_to :created_by, Tunez.Accounts.User
+    belongs_to :updated_eby, Tunez.Accounts.User
   end
 
   calculations do
@@ -82,5 +85,11 @@ defmodule Tunez.Music.Album do
   identities do
     identity :unique_album_names_per_artist, [:name, :artist_id],
       message: "already exists for this artist"
+  end
+
+  changes do
+    change relate_actor(:created_by, allow_nil?: true), on: [:create]
+    change relate_actor(:updated_by, allow_nil?: true), on: [:create]
+    change relate_actor(:updated_by, allow_nil?: true), on: [:update]
   end
 end
